@@ -57,6 +57,12 @@ function SaveValue($aFormValues){
 		$subcontractor_id5		= trim($aFormValues['subcontractor_id5']);
 		$construction_floor5	= trim($aFormValues['construction_floor5']);
 		$total_contract_amt5 	= trim($aFormValues['total_contract_amt5']);
+		$subcontractor_id7		= trim($aFormValues['subcontractor_id7']);
+		$construction_floor7	= trim($aFormValues['construction_floor7']);
+		$total_contract_amt7 	= trim($aFormValues['total_contract_amt7']);
+		$subcontractor_id8		= trim($aFormValues['subcontractor_id8']);
+		$construction_floor8	= trim($aFormValues['construction_floor8']);
+		$total_contract_amt8 	= trim($aFormValues['total_contract_amt8']);
 		$subcontractor_id6		= trim($aFormValues['subcontractor_id6']);
 		$construction_floor6	= trim($aFormValues['construction_floor6']);
 		$total_contract_amt6 	= trim($aFormValues['total_contract_amt6']);
@@ -74,6 +80,12 @@ function SaveValue($aFormValues){
 				,subcontractor_id5	= '$subcontractor_id5'
 				,construction_floor5 = '$construction_floor5'
 				,total_contract_amt5 = '$total_contract_amt5'
+				,subcontractor_id7	= '$subcontractor_id7'
+				,construction_floor7 = '$construction_floor7'
+				,total_contract_amt7 = '$total_contract_amt7'
+				,subcontractor_id8	= '$subcontractor_id8'
+				,construction_floor8 = '$construction_floor8'
+				,total_contract_amt8 = '$total_contract_amt8'
 				,subcontractor_id6	= '$subcontractor_id6'
 				,construction_floor6 = '$construction_floor6'
 				,total_contract_amt6 = '$total_contract_amt6'
@@ -182,12 +194,22 @@ if ($total > 0) {
 	$total_contract_amt = $row['total_contract_amt'];
 
 
-	//下包放樣檢核
+	//下包放樣
 	$subcontractor_id5 = $row['subcontractor_id5'];
 	$construction_floor5 = $row['construction_floor5'];
 	$total_contract_amt5 = $row['total_contract_amt5'];
 
-	//下包放樣檢核
+	//下包放樣2
+	$subcontractor_id7 = $row['subcontractor_id7'];
+	$construction_floor7 = $row['construction_floor7'];
+	$total_contract_amt7 = $row['total_contract_amt7'];
+
+	//下包放樣3
+	$subcontractor_id8 = $row['subcontractor_id8'];
+	$construction_floor8 = $row['construction_floor8'];
+	$total_contract_amt8 = $row['total_contract_amt8'];
+
+	//下包檢核
 	$subcontractor_id6 = $row['subcontractor_id6'];
 	$construction_floor6 = $row['construction_floor6'];
 	$total_contract_amt6 = $row['total_contract_amt6'];
@@ -230,6 +252,34 @@ if ($mDB->rowCount() > 0) {
 		$ch_subcontractor_id5 = $row['subcontractor_id'];
 		$ch_subcontractor_name5 = $row['subcontractor_name'];
 		$select_subcontractor5 .= "<option value=\"$ch_subcontractor_id5\" ".mySelect($ch_subcontractor_id5,$subcontractor_id5).">$ch_subcontractor_id5 $ch_subcontractor_name5</option>";
+	}
+}
+
+//載入下包放樣2
+$Qry="select subcontractor_id,subcontractor_name from subcontractor order by auto_seq";
+$mDB->query($Qry);
+$select_subcontractor7 = "";
+$select_subcontractor7 .= "<option></option>";
+
+if ($mDB->rowCount() > 0) {
+	while ($row=$mDB->fetchRow(2)) {
+		$ch_subcontractor_id7 = $row['subcontractor_id'];
+		$ch_subcontractor_name7 = $row['subcontractor_name'];
+		$select_subcontractor7 .= "<option value=\"$ch_subcontractor_id7\" ".mySelect($ch_subcontractor_id7,$subcontractor_id7).">$ch_subcontractor_id7 $ch_subcontractor_name7</option>";
+	}
+}
+
+//載入下包放樣3
+$Qry="select subcontractor_id,subcontractor_name from subcontractor order by auto_seq";
+$mDB->query($Qry);
+$select_subcontractor8 = "";
+$select_subcontractor8 .= "<option></option>";
+
+if ($mDB->rowCount() > 0) {
+	while ($row=$mDB->fetchRow(2)) {
+		$ch_subcontractor_id8 = $row['subcontractor_id'];
+		$ch_subcontractor_name8 = $row['subcontractor_name'];
+		$select_subcontractor8 .= "<option value=\"$ch_subcontractor_id8\" ".mySelect($ch_subcontractor_id8,$subcontractor_id8).">$ch_subcontractor_id8 $ch_subcontractor_name8</option>";
 	}
 }
 
@@ -633,6 +683,46 @@ $style_css
 						<div class="field_div1">放樣合約總價(含稅):</div> 
 						<div class="field_div2">
 							<input type="text" class="inputtext" id="total_contract_amt5" name="total_contract_amt5" size="20" style="width:100%;max-width:250px;" value="$total_contract_amt5" onchange="setEdit();"/>
+						</div> 
+					</div>
+					<div>
+						<div class="field_div1">下包放樣2:</div> 
+						<div class="field_div2">
+							<select id="subcontractor_id7" name="subcontractor_id7" placeholder="請選擇下包放樣" style="width:100%;max-width:350px;">
+								$select_subcontractor7
+							</select>
+						</div> 
+					</div>
+					<div>
+						<div class="field_div1">放樣施作樓層2:</div> 
+						<div class="field_div2">
+							<input type="text" class="inputtext" id="construction_floor7" name="construction_floor7" size="20" maxlength="160" style="width:100%;max-width:450px;" value="$construction_floor7" onchange="setEdit();"/>
+						</div> 
+					</div>
+					<div>
+						<div class="field_div1">放樣合約總價2(含稅):</div> 
+						<div class="field_div2">
+							<input type="text" class="inputtext" id="total_contract_amt7" name="total_contract_amt7" size="20" style="width:100%;max-width:250px;" value="$total_contract_amt7" onchange="setEdit();"/>
+						</div> 
+					</div>
+					<div>
+						<div class="field_div1">下包放樣3:</div> 
+						<div class="field_div2">
+							<select id="subcontractor_id8" name="subcontractor_id8" placeholder="請選擇下包放樣" style="width:100%;max-width:350px;">
+								$select_subcontractor8
+							</select>
+						</div> 
+					</div>
+					<div>
+						<div class="field_div1">放樣施作樓層3:</div> 
+						<div class="field_div2">
+							<input type="text" class="inputtext" id="construction_floor8" name="construction_floor8" size="20" maxlength="160" style="width:100%;max-width:450px;" value="$construction_floor8" onchange="setEdit();"/>
+						</div> 
+					</div>
+					<div>
+						<div class="field_div1">放樣合約總價3(含稅):</div> 
+						<div class="field_div2">
+							<input type="text" class="inputtext" id="total_contract_amt8" name="total_contract_amt8" size="20" style="width:100%;max-width:250px;" value="$total_contract_amt8" onchange="setEdit();"/>
 						</div> 
 					</div>
 					<div>

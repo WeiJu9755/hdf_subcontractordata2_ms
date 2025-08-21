@@ -82,6 +82,8 @@ function returnValue($auto_seq){
 		while ($row=$mDB->fetchRow(2)) {
 			$subcontractor_id5 = $row['subcontractor_id5'];
 			$subcontractor_id6 = $row['subcontractor_id6'];
+			$subcontractor_id7 = $row['subcontractor_id7'];
+			$subcontractor_id8 = $row['subcontractor_id8'];
 
 			$Qry2="SELECT subcontractor_name FROM subcontractor WHERE subcontractor_id = '$subcontractor_id5'";
 			$mDB2->query($Qry2);
@@ -96,6 +98,20 @@ function returnValue($auto_seq){
 				$subcontractor_id6 = $row2['subcontractor_name'];
 			}
 
+			$Qry2="SELECT subcontractor_name FROM subcontractor WHERE subcontractor_id = '$subcontractor_id7'";
+			$mDB2->query($Qry2);
+			if ($mDB2->rowCount() > 0) {
+				$row2=$mDB2->fetchRow(2);
+				$subcontractor_id7 = $row2['subcontractor_name'];
+			}
+
+			$Qry2="SELECT subcontractor_name FROM subcontractor WHERE subcontractor_id = '$subcontractor_id8'";
+			$mDB2->query($Qry2);
+			if ($mDB2->rowCount() > 0) {
+				$row2=$mDB2->fetchRow(2);
+				$subcontractor_id8 = $row2['subcontractor_name'];
+			}
+
 		}
 	}
 	
@@ -106,6 +122,8 @@ function returnValue($auto_seq){
 	
 	$objResponse->assign("subcontractor_id5".$auto_seq,"innerHTML",$subcontractor_id5);	
 	$objResponse->assign("subcontractor_id6".$auto_seq,"innerHTML",$subcontractor_id6);	
+	$objResponse->assign("subcontractor_id7".$auto_seq,"innerHTML",$subcontractor_id7);
+	$objResponse->assign("subcontractor_id8".$auto_seq,"innerHTML",$subcontractor_id8);		
 	
 	
     return $objResponse;
@@ -318,20 +336,36 @@ $list_view=<<<EOT
 	<table class="table table-bordered border-dark w-100" id="db_table" style="min-width:1200px;">
 		<thead class="table-light border-dark">
 			<tr style="border-bottom: 1px solid #000;">
-				<th class="text-center text-nowrap vmiddle" style="width:3%;padding: 10px;background-color: #CBF3FC;">狀態(1)</th>
-				<th class="text-center text-nowrap vmiddle" style="width:3%;padding: 10px;background-color: #CBF3FC;">狀態(2)</th>
-				<th class="text-center text-nowrap vmiddle" style="width:3%;padding: 10px;background-color: #CBF3FC;">區域</th>
-				<th class="text-center text-nowrap vmiddle" style="width:3%;padding: 10px;background-color: #CBF3FC;">案件編號</th>
-				<th class="text-center text-nowrap vmiddle" style="width:11%;padding: 10px;background-color: #CBF3FC;">工程名稱</th>
-				<th class="text-center text-nowrap vmiddle" style="width:10%;padding: 10px;background-color: #CBF3FC;">放樣發包進度</th>
-				<th class="text-center text-nowrap vmiddle" style="width:9%;padding: 10px;background-color: #CBF3FC;">下包放樣</th>
-				<th class="text-center text-nowrap vmiddle" style="width:8%;padding: 10px;background-color: #CBF3FC;">放樣施作樓層</th>
-				<th class="text-center text-nowrap vmiddle" style="width:8%;padding: 10px;background-color: #CBF3FC;">放樣合約總價<br>(含稅)</th>
-				<th class="text-center text-nowrap vmiddle" style="width:9%;padding: 10px;background-color: #CBF3FC;">下包放樣檢核</th>
-				<th class="text-center text-nowrap vmiddle" style="width:8%;padding: 10px;background-color: #CBF3FC;">檢核施作樓層</th>
-				<th class="text-center text-nowrap vmiddle" style="width:8%;padding: 10px;background-color: #CBF3FC;">檢核合約總價<br>(含稅)</th>
-				<th class="text-center text-nowrap vmiddle" style="width:3%;padding: 10px;background-color: #CBF3FC;">處理</th>
-				<th class="text-center text-nowrap vmiddle" style="width:4%;padding: 10px;background-color: #CBF3FC;">最後修改</th>
+				<th class="text-center text-nowrap vmiddle" style="width:4%;padding:10px;background-color:#CBF3FC;">狀態(1)</th>
+				<th class="text-center text-nowrap vmiddle" style="width:4%;padding:10px;background-color:#CBF3FC;">狀態(2)</th>
+				<th class="text-center text-nowrap vmiddle" style="width:4%;padding:10px;background-color:#CBF3FC;">區域</th>
+				<th class="text-center text-nowrap vmiddle" style="width:5%;padding:10px;background-color:#CBF3FC;">案件編號</th>
+				<th class="text-center text-nowrap vmiddle" style="width:13%;padding:10px;background-color:#CBF3FC;">工程名稱</th>
+				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">放樣發包進度</th>
+
+				<!-- 下包放樣1 -->
+				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">下包放樣</th>
+				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">放樣施作樓層</th>
+				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">放樣合約總價<br>(含稅)</th>
+
+				<!-- 下包放樣2 -->
+				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">下包放樣2</th>
+				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">放樣施作樓層2</th>
+				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">放樣合約總價2<br>(含稅)</th>
+
+				<!-- 下包放樣3 -->
+				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">下包放樣3</th>
+				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">放樣施作樓層3</th>
+				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">放樣合約總價3<br>(含稅)</th>
+
+				<!-- 檢核 -->
+				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">下包放樣檢核</th>
+				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">檢核施作樓層</th>
+				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">檢核合約總價<br>(含稅)</th>
+
+				<!-- 其他 -->
+				<th class="text-center text-nowrap vmiddle" style="width:6%;padding:10px;background-color:#CBF3FC;">最後修改</th>
+				<th class="text-center text-nowrap vmiddle" style="width:4%;padding:10px;background-color:#CBF3FC;">處理</th>
 			</tr>
 		</thead>
 		<tbody class="table-group-divider">
@@ -437,6 +471,8 @@ $list_view
 
 				var subcontractor_name5 = '<div id="subcontractor_id5'+aData[11]+'"></div>';
 				var subcontractor_name6 = '<div id="subcontractor_id6'+aData[11]+'"></div>';
+				var subcontractor_name7 = '<div id="subcontractor_id7'+aData[11]+'"></div>';
+				var subcontractor_name8 = '<div id="subcontractor_id8'+aData[11]+'"></div>';
 				xajax_returnValue(aData[11]);
 
 
@@ -461,26 +497,72 @@ $list_view
 
 				$('td:eq(8)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt1+'</div>' );
 
+
+				//下包放樣2
+				var subcontractor_id7 = "";
+				if (aData[18] != null && aData[18] != "")
+					subcontractor_id7 = aData[18];
+
+				$('td:eq(9)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+subcontractor_name7+'</div>' );
+
+				//放樣施作樓層2
+				var construction_floor3 = "";
+				if (aData[19] != null && aData[19] != "")
+					construction_floor3 = aData[19];
+
+				$('td:eq(10)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+construction_floor3+'</div>' );
+
+				//放樣合約總價2(含稅)
+				var total_contract_amt3 = "";
+				if (aData[20] != null && aData[20] != "")
+					total_contract_amt3 = number_format(aData[20]);
+
+				$('td:eq(11)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt3+'</div>' );
+
+				//下包放樣3
+				var subcontractor_id8 = "";
+
+				if (aData[21] != null && aData[21] != "")
+					subcontractor_id8 = aData[21];
+
+				$('td:eq(12)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+subcontractor_name8+'</div>' );
+
+				//放樣施作樓層3
+				var construction_floor4 = "";
+				if (aData[22] != null && aData[22] != "")
+					construction_floor4 = aData[22];
+
+				$('td:eq(13)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+construction_floor4+'</div>' );
+
+				//放樣合約總價3(含稅)
+				var total_contract_amt4 = "";
+				if (aData[23] != null && aData[23] != "")
+					total_contract_amt4 = number_format(aData[23]);
+
+				$('td:eq(14)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt4+'</div>' );
+				
+
+
 				//下包放樣檢核
 				var subcontractor_id6 = "";
 				if (aData[14] != null && aData[14] != "")
 					subcontractor_id6 = aData[14];
 
-				$('td:eq(9)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+subcontractor_name6+'</div>' );
+				$('td:eq(15)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+subcontractor_name6+'</div>' );
 
 				//檢核施作樓層
 				var construction_floor2 = "";
 				if (aData[15] != null && aData[15] != "")
 					construction_floor2 = aData[15];
 
-				$('td:eq(10)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+construction_floor2+'</div>' );
+				$('td:eq(16)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+construction_floor2+'</div>' );
 
 				//檢核合約總價(含稅)
 				var total_contract_amt2 = "";
 				if (aData[16] != null && aData[16] != "")
 					total_contract_amt2 = number_format(aData[16]);
 
-				$('td:eq(11)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt2+'</div>' );
+				$('td:eq(17)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt2+'</div>' );
 				/*
 				//確認
 				if ( aData[13] == "Y" ) {
@@ -507,7 +589,7 @@ $list_view
 						+'</div>';
 				}
 
-				$('td:eq(12)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center" style="height:auto;min-height:32px;">'+show_btn+'</div>' );
+				$('td:eq(19)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center" style="height:auto;min-height:32px;">'+show_btn+'</div>' );
 
 				//最後修改
 				var last_modify7 = "";
@@ -519,7 +601,7 @@ $list_view
 				if (aData[12] != null && aData[12] != "")
 					member_name = '<div class="text-nowrap">'+aData[12]+'</div>';
 
-				$('td:eq(13)', nRow).html( '<div class="text-center" style="height:auto;min-height:32px;">'+last_modify7+member_name+'</div>' );
+				$('td:eq(18)', nRow).html( '<div class="text-center" style="height:auto;min-height:32px;">'+last_modify7+member_name+'</div>' );
 
 
 				return nRow;
