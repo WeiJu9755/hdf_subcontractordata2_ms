@@ -191,9 +191,11 @@
 	*/
 
 	if ($sWhere=="")
-		$sWhere = "WHERE (a.status1 <> '已完工' AND a.status1 = '已簽約' AND a.confirm4 = 'Y') ";
+		$sWhere = "WHERE (a.status1 <> '已完工' AND a.status1 = '已簽約' AND a.confirm4 = 'Y') AND (a.ContractingModel IS NULL 
+     OR a.ContractingModel NOT IN ('材料買賣(BH)', '租賃(RH)'))";
 	else
-		$sWhere .= " and (a.status1 <> '已完工' AND a.status1 = '已簽約' AND a.confirm4 = 'Y') ";
+		$sWhere .= " and (a.status1 <> '已完工' AND a.status1 = '已簽約' AND a.confirm4 = 'Y') AND (a.ContractingModel IS NULL 
+     OR a.ContractingModel NOT IN ('材料買賣(BH)', '租賃(RH)'))";
 
 	$sQuery = "
 		SELECT SQL_CALC_FOUND_ROWS ".str_replace(" , ", " ", implode(", ", $aColumns))."
