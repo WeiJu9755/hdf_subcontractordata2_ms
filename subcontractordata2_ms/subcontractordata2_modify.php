@@ -107,6 +107,7 @@ function SaveValue($aFormValues){
 				,total_contract_amt6 = '$total_contract_amt6'
 				,makeby8			= '$memberID'
 				,last_modify8		= now()
+				,update_count8		= update_count8 + 1
 				where auto_seq = '$auto_seq'";
 				
 		$mDB->query($Qry);

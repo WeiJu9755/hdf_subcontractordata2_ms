@@ -33,7 +33,7 @@
 //			,'a.case_type','a.ConfirmSending','a.ConfirmSending_datetime');
 
 	$aColumns = array( 'a.status1','a.status2','a.region','a.case_id','a.construction_id','b.engineering_name','a.subcontractor_id5','a.construction_floor5','a.total_contract_amt5','a.makeby8','a.last_modify8'
-	,'a.auto_seq','f.member_name','a.confirm8','a.subcontractor_id6','a.construction_floor6','a.total_contract_amt6','a.subcontracting_progress2','a.subcontractor_id7','a.construction_floor7','a.total_contract_amt7','a.subcontractor_id8','a.construction_floor8','a.total_contract_amt8');
+	,'a.auto_seq','f.member_name','a.confirm8','a.subcontractor_id6','a.construction_floor6','a.total_contract_amt6','a.subcontracting_progress2','a.subcontractor_id7','a.construction_floor7','a.total_contract_amt7','a.subcontractor_id8','a.construction_floor8','a.total_contract_amt8','a.update_count8');
 			
 	/* Indexed column (used for fast and accurate table cardinality) */
 	$sIndexColumn = "auto_seq";
