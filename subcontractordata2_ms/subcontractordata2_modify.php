@@ -20,6 +20,33 @@ $detect = new Mobile_Detect;
 @include_once '/website/xajax/xajax_core/xajax.inc.php';
 $xajax = new xajax();
 
+function normalizeMultiSelectValue($value) {
+    if (!is_array($value)) {
+        $value = ($value === null || $value === '') ? [] : [$value];
+    }
+
+    $values = [];
+    foreach ($value as $item) {
+        $item = trim($item);
+        if ($item !== '' && !in_array($item, $values, true)) {
+            $values[] = $item;
+        }
+    }
+
+    return implode(',', $values);
+}
+
+function renderBuildingOptions($buildingOptions, $selectedValue) {
+    $selectedValues = array_filter(array_map('trim', explode(',', (string)$selectedValue)), 'strlen');
+    $html = '';
+    foreach ($buildingOptions as $building) {
+        $escapedBuilding = htmlspecialchars($building, ENT_QUOTES, 'UTF-8');
+        $selected = in_array($building, $selectedValues, true) ? ' selected' : '';
+        $html .= "<option value=\"{$escapedBuilding}\"{$selected}>{$escapedBuilding}</option>";
+    }
+    return $html;
+}
+
 $xajax->registerFunction("processform");
 function processform($aFormValues) {
     $objResponse = new xajaxResponse();
@@ -72,15 +99,19 @@ function SaveValue($aFormValues){
 		$subcontracting_progress2		= trim($aFormValues['subcontracting_progress2']);
 		$subcontractor_id5		= trim($aFormValues['subcontractor_id5']);
 		$construction_floor5	= trim($aFormValues['construction_floor5']);
+		$subcontractor_buildings5 = normalizeMultiSelectValue($aFormValues['subcontractor_buildings5'] ?? []);
 		$total_contract_amt5 	= trim($aFormValues['total_contract_amt5']);
 		$subcontractor_id7		= trim($aFormValues['subcontractor_id7']);
 		$construction_floor7	= trim($aFormValues['construction_floor7']);
+		$subcontractor_buildings7 = normalizeMultiSelectValue($aFormValues['subcontractor_buildings7'] ?? []);
 		$total_contract_amt7 	= trim($aFormValues['total_contract_amt7']);
 		$subcontractor_id8		= trim($aFormValues['subcontractor_id8']);
 		$construction_floor8	= trim($aFormValues['construction_floor8']);
+		$subcontractor_buildings8 = normalizeMultiSelectValue($aFormValues['subcontractor_buildings8'] ?? []);
 		$total_contract_amt8 	= trim($aFormValues['total_contract_amt8']);
 		$subcontractor_id6		= trim($aFormValues['subcontractor_id6']);
 		$construction_floor6	= trim($aFormValues['construction_floor6']);
+		$subcontractor_buildings6 = normalizeMultiSelectValue($aFormValues['subcontractor_buildings6'] ?? []);
 		$total_contract_amt6 	= trim($aFormValues['total_contract_amt6']);
 
 		//$confirm8				= trim($aFormValues['confirm8']);
@@ -95,15 +126,19 @@ function SaveValue($aFormValues){
 				,subcontracting_progress2	= '$subcontracting_progress2'
 				,subcontractor_id5	= '$subcontractor_id5'
 				,construction_floor5 = '$construction_floor5'
+				,subcontractor_buildings5 = '$subcontractor_buildings5'
 				,total_contract_amt5 = '$total_contract_amt5'
 				,subcontractor_id7	= '$subcontractor_id7'
 				,construction_floor7 = '$construction_floor7'
+				,subcontractor_buildings7 = '$subcontractor_buildings7'
 				,total_contract_amt7 = '$total_contract_amt7'
 				,subcontractor_id8	= '$subcontractor_id8'
 				,construction_floor8 = '$construction_floor8'
+				,subcontractor_buildings8 = '$subcontractor_buildings8'
 				,total_contract_amt8 = '$total_contract_amt8'
 				,subcontractor_id6	= '$subcontractor_id6'
 				,construction_floor6 = '$construction_floor6'
+				,subcontractor_buildings6 = '$subcontractor_buildings6'
 				,total_contract_amt6 = '$total_contract_amt6'
 				,makeby8			= '$memberID'
 				,last_modify8		= now()
@@ -214,21 +249,25 @@ if ($total > 0) {
 	//下包放樣
 	$subcontractor_id5 = $row['subcontractor_id5'];
 	$construction_floor5 = $row['construction_floor5'];
+	$subcontractor_buildings5 = $row['subcontractor_buildings5'] ?? '';
 	$total_contract_amt5 = $row['total_contract_amt5'];
 
 	//下包放樣2
 	$subcontractor_id7 = $row['subcontractor_id7'];
 	$construction_floor7 = $row['construction_floor7'];
+	$subcontractor_buildings7 = $row['subcontractor_buildings7'] ?? '';
 	$total_contract_amt7 = $row['total_contract_amt7'];
 
 	//下包放樣3
 	$subcontractor_id8 = $row['subcontractor_id8'];
 	$construction_floor8 = $row['construction_floor8'];
+	$subcontractor_buildings8 = $row['subcontractor_buildings8'] ?? '';
 	$total_contract_amt8 = $row['total_contract_amt8'];
 
 	//下包檢核
 	$subcontractor_id6 = $row['subcontractor_id6'];
 	$construction_floor6 = $row['construction_floor6'];
+	$subcontractor_buildings6 = $row['subcontractor_buildings6'] ?? '';
 	$total_contract_amt6 = $row['total_contract_amt6'];
 
 
@@ -307,6 +346,20 @@ if ($mDB->rowCount() > 0) {
     }
 }
 
+// 載入棟別；選取值與顯示文字皆使用 items.caption。
+$Qry = "SELECT auto_seq, caption AS building FROM items WHERE pro_id = 'building' ORDER BY orderby, auto_seq";
+$mDB->query($Qry);
+$buildingOptions = [];
+if ($mDB->rowCount() > 0) {
+    while ($row = $mDB->fetchRow(2)) {
+        $buildingOptions[] = $row['building'];
+    }
+}
+$select_subcontractor_buildings5 = renderBuildingOptions($buildingOptions, $subcontractor_buildings5);
+$select_subcontractor_buildings6 = renderBuildingOptions($buildingOptions, $subcontractor_buildings6);
+$select_subcontractor_buildings7 = renderBuildingOptions($buildingOptions, $subcontractor_buildings7);
+$select_subcontractor_buildings8 = renderBuildingOptions($buildingOptions, $subcontractor_buildings8);
+
 
 $mDB->remove();
 
@@ -352,6 +405,11 @@ $style_css=<<<EOT
 	padding:0 10px 0 0;
 }
 
+.subcontractor-building-select + .select2 {
+	width: 100% !important;
+	max-width: 450px !important;
+}
+
 .custom-pointer {
   cursor: pointer;
 }
@@ -390,6 +448,11 @@ $style_css=<<<EOT
 	padding:0 10px 0 0;
 }
 
+.subcontractor-building-select + .select2 {
+	width: 100% !important;
+	max-width: 450px !important;
+}
+
 </style>
 EOT;
 
@@ -399,6 +462,8 @@ EOT;
 $show_center=<<<EOT
 
 $style_css
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
 <div class="card card_full">
 	<div class="card-header text-bg-info">
@@ -665,6 +730,14 @@ $style_css
 						</div> 
 					</div>
 					<div>
+						<div class="field_div1">放樣棟別:</div>
+						<div class="field_div2">
+							<select class="subcontractor-building-select" id="subcontractor_buildings5" name="subcontractor_buildings5[]" multiple="multiple" style="width:100%;max-width:450px;">
+								$select_subcontractor_buildings5
+							</select>
+						</div>
+					</div>
+					<div>
 						<div class="field_div1">放樣合約總價(含稅):</div> 
 						<div class="field_div2">
 							<input type="text" class="inputtext" id="total_contract_amt5" name="total_contract_amt5" size="20" style="width:100%;max-width:250px;" value="$total_contract_amt5" onchange="setEdit();"/>
@@ -683,6 +756,14 @@ $style_css
 						<div class="field_div2">
 							<input type="text" class="inputtext" id="construction_floor7" name="construction_floor7" size="20" maxlength="160" style="width:100%;max-width:450px;" value="$construction_floor7" onchange="setEdit();"/>
 						</div> 
+					</div>
+					<div>
+						<div class="field_div1">放樣棟別2:</div>
+						<div class="field_div2">
+							<select class="subcontractor-building-select" id="subcontractor_buildings7" name="subcontractor_buildings7[]" multiple="multiple" style="width:100%;max-width:450px;">
+								$select_subcontractor_buildings7
+							</select>
+						</div>
 					</div>
 					<div>
 						<div class="field_div1">放樣合約總價2(含稅):</div> 
@@ -705,6 +786,14 @@ $style_css
 						</div> 
 					</div>
 					<div>
+						<div class="field_div1">放樣棟別3:</div>
+						<div class="field_div2">
+							<select class="subcontractor-building-select" id="subcontractor_buildings8" name="subcontractor_buildings8[]" multiple="multiple" style="width:100%;max-width:450px;">
+								$select_subcontractor_buildings8
+							</select>
+						</div>
+					</div>
+					<div>
 						<div class="field_div1">放樣合約總價3(含稅):</div> 
 						<div class="field_div2">
 							<input type="text" class="inputtext" id="total_contract_amt8" name="total_contract_amt8" size="20" style="width:100%;max-width:250px;" value="$total_contract_amt8" onchange="setEdit();"/>
@@ -723,6 +812,14 @@ $style_css
 						<div class="field_div2">
 							<input type="text" class="inputtext" id="construction_floor6" name="construction_floor6" size="20" maxlength="160" style="width:100%;max-width:450px;" value="$construction_floor6" onchange="setEdit();"/>
 						</div> 
+					</div>
+					<div>
+						<div class="field_div1">檢核棟別:</div>
+						<div class="field_div2">
+							<select class="subcontractor-building-select" id="subcontractor_buildings6" name="subcontractor_buildings6[]" multiple="multiple" style="width:100%;max-width:450px;">
+								$select_subcontractor_buildings6
+							</select>
+						</div>
 					</div>
 					<div>
 						<div class="field_div1">檢核合約總價(含稅):</div> 
@@ -904,6 +1001,14 @@ $(document).ready(function(){
     bindSubcontractorLookup('subcontractor_id7', 'subcontractor_info2');
     bindSubcontractorLookup('subcontractor_id8', 'subcontractor_info3');
     bindSubcontractorLookup('subcontractor_id6', 'subcontractor_info4');
+
+    $('.subcontractor-building-select').select2({
+        placeholder: '請選擇棟別',
+        width: '100%',
+        closeOnSelect: false
+    }).on('change', function() {
+        setEdit();
+    });
 });
 
 
