@@ -344,33 +344,25 @@ $list_view=<<<EOT
 				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">放樣發包進度</th>
 
 				<!-- 下包放樣1 -->
-				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">下包放樣</th>
-				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">放樣施作樓層</th>
-				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">放樣合約總價<br>(含稅)</th>
+				<th class="text-center text-nowrap vmiddle" style="width:15%;padding:10px;background-color:#CBF3FC;">下包放樣</th>
 
 				<!-- 下包放樣2 -->
-				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">下包放樣2</th>
-				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">放樣施作樓層2</th>
-				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">放樣合約總價2<br>(含稅)</th>
+				<th class="text-center text-nowrap vmiddle" style="width:15%;padding:10px;background-color:#CBF3FC;">下包放樣2</th>
 
 				<!-- 下包放樣3 -->
-				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">下包放樣3</th>
-				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">放樣施作樓層3</th>
-				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">放樣合約總價3<br>(含稅)</th>
+				<th class="text-center text-nowrap vmiddle" style="width:15%;padding:10px;background-color:#CBF3FC;">下包放樣3</th>
 
 				<!-- 檢核 -->
-				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">下包放樣檢核</th>
-				<th class="text-center text-nowrap vmiddle" style="width:7%;padding:10px;background-color:#CBF3FC;">檢核施作樓層</th>
-				<th class="text-center text-nowrap vmiddle" style="width:9%;padding:10px;background-color:#CBF3FC;">檢核合約總價<br>(含稅)</th>
+				<th class="text-center text-nowrap vmiddle" style="width:15%;padding:10px;background-color:#CBF3FC;">下包放樣檢核</th>
 
 				<!-- 其他 -->
-				<th class="text-center text-nowrap vmiddle" style="width:6%;padding:10px;background-color:#CBF3FC;">最後修改</th>
 				<th class="text-center text-nowrap vmiddle" style="width:4%;padding:10px;background-color:#CBF3FC;">處理</th>
+				<th class="text-center text-nowrap vmiddle" style="width:6%;padding:10px;background-color:#CBF3FC;">最後修改</th>
 			</tr>
 		</thead>
 		<tbody class="table-group-divider">
 			<tr>
-				<td colspan="14" class="dataTables_empty">資料載入中...</td>
+				<td colspan="12" class="dataTables_empty">資料載入中...</td>
 			</tr>
 		</tbody>
 	</table>
@@ -446,6 +438,35 @@ $show_view=<<<EOT
     overflow-y: auto !important;
     overflow-x: auto !important;
 }
+.subcontractor-cell {
+    min-width: 150px;
+    text-align: left;
+    white-space: normal !important;
+    word-break: break-word;
+}
+.subcontractor-cell .subcontractor-name {
+    color: #212529;
+    font-weight: 700;
+    line-height: 1.35;
+    min-height: 18px;
+}
+.subcontractor-cell .subcontractor-meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    border-top: 1px solid #e6eef5;
+    margin-top: 4px;
+    padding-top: 4px;
+    color: #333;
+}
+.subcontractor-cell .meta-label {
+    color: #6c757d;
+    white-space: nowrap;
+}
+.subcontractor-cell .meta-value {
+    text-align: right;
+    word-break: break-all;
+}
 </style>
 
 $list_view
@@ -513,7 +534,7 @@ $list_view
 				if (aData[3] != null && aData[3] != "")
 					case_id = aData[3];
 
-				$('td:eq()', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 weight text-nowrap" style="height:auto;min-height:32px;">'+case_id+'</div>' );
+				$('td:eq(4)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 weight text-nowrap" style="height:auto;min-height:32px;">'+case_id+'</div>' );
 
 
 				//放樣發包進度
@@ -532,93 +553,21 @@ $list_view
 				xajax_returnValue(aData[11]);
 
 
-				//下包放樣
-				var subcontractor_id5 = "";
-				if (aData[6] != null && aData[6] != "")
-					subcontractor_id5 = aData[6];
-
-				$('td:eq(6)', nRow).html( '<div class="size12 text-center" style="width: 100%; word-break: break-all; white-space: normal; min-height:32px;">'+subcontractor_name5+'</div>' );
-
-				//放樣施作樓層
-				var construction_floor1 = "";
-				if (aData[7] != null && aData[7] != "")
-					construction_floor1 = aData[7];
-
-				$('td:eq(7)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+construction_floor1+'</div>' );
-
-				//放樣合約總價(含稅)
-				var total_contract_amt1 = "";
-				if (aData[8] != null && aData[8] != "")
-					total_contract_amt1 = number_format(aData[8]);
-
-				$('td:eq(8)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt1+'</div>' );
-
-
-				//下包放樣2
-				var subcontractor_id7 = "";
-				if (aData[18] != null && aData[18] != "")
-					subcontractor_id7 = aData[18];
-
-				$('td:eq(9)', nRow).html( '<div class="size12 text-center" style="width: 100%; word-break: break-all; white-space: normal; min-height:32px;">'+subcontractor_name7+'</div>' );
-
-				//放樣施作樓層2
-				var construction_floor3 = "";
-				if (aData[19] != null && aData[19] != "")
-					construction_floor3 = aData[19];
-
-				$('td:eq(10)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+construction_floor3+'</div>' );
-
-				//放樣合約總價2(含稅)
-				var total_contract_amt3 = "";
-				if (aData[20] != null && aData[20] != "")
-					total_contract_amt3 = number_format(aData[20]);
-
-				$('td:eq(11)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt3+'</div>' );
-
-				//下包放樣3
-				var subcontractor_id8 = "";
-
-				if (aData[21] != null && aData[21] != "")
-					subcontractor_id8 = aData[21];
-
-				$('td:eq(12)', nRow).html( '<div class="size12 text-center" style="width: 100%; word-break: break-all; white-space: normal; min-height:32px;">'+subcontractor_name8+'</div>' );
-
-				//放樣施作樓層3
-				var construction_floor4 = "";
-				if (aData[22] != null && aData[22] != "")
-					construction_floor4 = aData[22];
-
-				$('td:eq(13)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+construction_floor4+'</div>' );
-
-				//放樣合約總價3(含稅)
-				var total_contract_amt4 = "";
-				if (aData[23] != null && aData[23] != "")
-					total_contract_amt4 = number_format(aData[23]);
-
-				$('td:eq(14)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt4+'</div>' );
-				
-
-
-				//下包放樣檢核
-				var subcontractor_id6 = "";
-				if (aData[14] != null && aData[14] != "")
-					subcontractor_id6 = aData[14];
-
-				$('td:eq(15)', nRow).html( '<div class="size12 text-center" style="width: 100%; word-break: break-all; white-space: normal; min-height:32px;">'+subcontractor_name6+'</div>' );
-
-				//檢核施作樓層
-				var construction_floor2 = "";
-				if (aData[15] != null && aData[15] != "")
-					construction_floor2 = aData[15];
-
-				$('td:eq(16)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12" style="height:auto;min-height:32px;">'+construction_floor2+'</div>' );
-
-				//檢核合約總價(含稅)
-				var total_contract_amt2 = "";
-				if (aData[16] != null && aData[16] != "")
-					total_contract_amt2 = number_format(aData[16]);
-
-				$('td:eq(17)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center size12 text-nowrap" style="height:auto;min-height:32px;">'+total_contract_amt2+'</div>' );
+				function subcontractorCell(nameHtml, building, floor, amt) {
+					var buildingText = (building != null && building != "") ? building : "";
+					var floorText = (floor != null && floor != "") ? floor : "";
+					var amtText = (amt != null && amt != "") ? number_format(amt) : "";
+					return '<div class="subcontractor-cell size12">'
+						+ '<div class="subcontractor-name">'+nameHtml+'</div>'
+						+ '<div class="subcontractor-meta"><span class="meta-label">棟別</span><span class="meta-value">'+buildingText+'</span></div>'
+						+ '<div class="subcontractor-meta"><span class="meta-label">施作樓層</span><span class="meta-value">'+floorText+'</span></div>'
+						+ '<div class="subcontractor-meta"><span class="meta-label">合約總價</span><span class="meta-value">'+amtText+'</span></div>'
+						+ '</div>';
+				}
+				$('td:eq(6)', nRow).html(subcontractorCell(subcontractor_name5, aData[25], aData[7], aData[8]));
+				$('td:eq(7)', nRow).html(subcontractorCell(subcontractor_name7, aData[26], aData[19], aData[20]));
+				$('td:eq(8)', nRow).html(subcontractorCell(subcontractor_name8, aData[27], aData[22], aData[23]));
+				$('td:eq(9)', nRow).html(subcontractorCell(subcontractor_name6, aData[28], aData[15], aData[16]));
 				/*
 				//確認
 				if ( aData[13] == "Y" ) {
@@ -630,7 +579,7 @@ $list_view
 				}
 				$('td:eq(11)', nRow).html( '<div class="text-center">'+img_check+'</div>' );
 				*/
-				var url1 = "openfancybox_edit('/index.php?ch=edit&auto_seq="+aData[11]+"&fm=$fm',800,'96%','');";
+				var url1 = "openfancybox_edit('/index.php?ch=edit&auto_seq="+aData[11]+"&fm=$fm',1200,'96%','');";
 				var mdel = "myDel("+aData[11]+");";
 
 				var show_btn = '';
@@ -645,7 +594,7 @@ $list_view
 						+'</div>';
 				}
 
-				$('td:eq(19)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center" style="height:auto;min-height:32px;">'+show_btn+'</div>' );
+				$('td:eq(10)', nRow).html( '<div class="d-flex justify-content-center align-items-center text-center" style="height:auto;min-height:32px;">'+show_btn+'</div>' );
 
 				//最後修改
 				var last_modify7 = (aData[10] != null && aData[10] != "") 
@@ -662,7 +611,7 @@ $list_view
 
 				if ((last_modify7 == null || last_modify7 == "") && (member_name == null || member_name == "")) {
 				
-				$('td:eq(18)', nRow).html('<div style="height:auto;min-height:32px;"></div>');
+				$('td:eq(11)', nRow).html('<div style="height:auto;min-height:32px;"></div>');
 
 				} else {
 
@@ -674,7 +623,7 @@ $list_view
 										'title="累計修改次數：' + update_count_val + '次">' + 
 										update_count_val + '</span>';
 
-				$('td:eq(18)', nRow).html( 
+				$('td:eq(11)', nRow).html(
 					'<div class="text-center" style="height:auto;min-height:32px;">' + 
 						last_modify7 + 
 						'<div>' + member_name + update_count_html + '</div>' + 
